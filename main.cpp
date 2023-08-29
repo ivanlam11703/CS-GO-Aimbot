@@ -3,6 +3,8 @@
 
 #include <thread>
 
+constexpr auto hotkey = VK_SNAPSHOT;
+
 #define NOSMOOTH
 //#define SOMESMOOTH
 //#define VERYSMOOTH
@@ -39,7 +41,7 @@ int main()
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 		// aimbot is bound to print screen key
-		if (!GetAsyncKeyState(VK_SNAPSHOT))
+		if (!GetAsyncKeyState(hotkey))
 			continue;
 
 		const auto localPlayer = memory.Read<std::uintptr_t>(client + offset::dwLocalPlayer);
