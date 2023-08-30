@@ -52,8 +52,7 @@ int main()
 
 		const auto clientState = memory.Read<std::uintptr_t>(engine + offset::dwClientState);
 
-		const auto localPlayerId =
-			memory.Read<std::int32_t>(clientState + offset::dwClientState_GetLocalPlayer);
+		const auto localPlayerId = memory.Read<std::int32_t>(clientState + offset::dwClientState_GetLocalPlayer);
 
 		const auto viewAngles = memory.Read<Vector3>(clientState + offset::dwClientState_ViewAngles);
 		const auto aimPunch = memory.Read<Vector3>(localPlayer + offset::m_aimPunchAngle) * 2;
@@ -65,14 +64,12 @@ int main()
 		{
 			const auto player = memory.Read<std::uintptr_t>(client + offset::dwEntityList + i * 0x10);
 
-			if (memory.Read<std::int32_t>(player + offset::m_iTeamNum) == localTeam)
+			if (memory.Read<std::int32_t>(player + offset::m_iTeamNum) == localTeam
+			|| memory.Read<bool>(player + offset::m_bDormant)
+			|| memory.Read<std::int32_t>(player + offset::m_lifeState))
+			{
 				continue;
-
-			if (memory.Read<bool>(player + offset::m_bDormant))
-				continue;
-
-			if (memory.Read<std::int32_t>(player + offset::m_lifeState))
-				continue;
+			}
 
 			if (memory.Read<std::int32_t>(player + offset::m_bSpottedByMask) & (1 << localPlayerId))
 			{
@@ -84,11 +81,7 @@ int main()
 					memory.Read<float>(boneMatrix + 0x30 * 8 + 0x2C)
 				};
 
-				const auto angle = CalculateAngle(
-					localEyePosition,
-					playerHeadPosition,
-					viewAngles + aimPunch
-				);
+				const auto angle = CalculateAngle(localEyePosition, playerHeadPosition, viewAngles + aimPunch);
 
 				const auto fov = std::hypot(angle.x, angle.y);
 
