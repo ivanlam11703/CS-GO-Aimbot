@@ -81,13 +81,13 @@ public:
 namespace offset
 {
 	// client
-	constexpr ::std::ptrdiff_t dwLocalPlayer = 0xDB25DC;
-	constexpr ::std::ptrdiff_t dwEntityList = 0x4DCDE7C;
+	constexpr ::std::ptrdiff_t m_dwLocalPlayer = 0xDB25DC;
+	constexpr ::std::ptrdiff_t m_dwEntityList = 0x4DCDE7C;
 
 	// engine
-	constexpr ::std::ptrdiff_t dwClientState = 0x58CFC4;
-	constexpr ::std::ptrdiff_t dwClientState_ViewAngles = 0x4D90;
-	constexpr ::std::ptrdiff_t dwClientState_GetLocalPlayer = 0x180;
+	constexpr ::std::ptrdiff_t m_dwClientState = 0x58CFC4;
+	constexpr ::std::ptrdiff_t m_dwClientState_ViewAngles = 0x4D90;
+	constexpr ::std::ptrdiff_t m_dwClientState_GetLocalPlayer = 0x180;
 
 	// entity
 	constexpr ::std::ptrdiff_t m_dwBoneMatrix = 0x26A8;

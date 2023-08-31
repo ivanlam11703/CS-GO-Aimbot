@@ -44,13 +44,13 @@ int main()
 		if (!GetAsyncKeyState(hotkey))
 			continue;
 
-		const auto localPlayer = memory.Read<std::uintptr_t>(client + offset::dwLocalPlayer);
+		const auto localPlayer = memory.Read<std::uintptr_t>(client + offset::m_dwLocalPlayer);
 		const auto localTeam = memory.Read<std::int32_t>(localPlayer + offset::m_iTeamNum);
 		const auto localPos = memory.Read<Vector3>(localPlayer + offset::m_vecOrigin) + memory.Read<Vector3>(localPlayer + offset::m_vecViewOffset);
-		const auto clientState = memory.Read<std::uintptr_t>(engine + offset::dwClientState);
-		const auto localPlayerId = memory.Read<std::int32_t>(clientState + offset::dwClientState_GetLocalPlayer);
+		const auto clientState = memory.Read<std::uintptr_t>(engine + offset::m_dwClientState);
+		const auto localPlayerId = memory.Read<std::int32_t>(clientState + offset::m_dwClientState_GetLocalPlayer);
 
-		const auto viewAngles = memory.Read<Vector3>(clientState + offset::dwClientState_ViewAngles);
+		const auto viewAngles = memory.Read<Vector3>(clientState + offset::m_dwClientState_ViewAngles);
 		const auto aimPunch = memory.Read<Vector3>(localPlayer + offset::m_aimPunchAngle) * 2;
 
 		float bestFov = 5.f;
@@ -58,7 +58,7 @@ int main()
 
 		for (auto i = 1; i <= 32; ++i)
 		{
-			const auto player = memory.Read<std::uintptr_t>(client + offset::dwEntityList + i * 0x10);
+			const auto player = memory.Read<std::uintptr_t>(client + offset::m_dwEntityList + i * 0x10);
 
 			if (memory.Read<std::int32_t>(player + offset::m_iTeamNum) == localTeam ||
 				memory.Read<bool>(player + offset::m_bDormant) ||
@@ -90,7 +90,7 @@ int main()
 
 		if (!bestAngle.IsZero())
 		{
-			memory.Write<Vector3>(clientState + offset::dwClientState_ViewAngles, viewAngles + bestAngle / smoothing); 
+			memory.Write<Vector3>(clientState + offset::m_dwClientState_ViewAngles, viewAngles + bestAngle / smoothing); 
 		}
 	}
 
